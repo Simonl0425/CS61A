@@ -173,7 +173,7 @@ def filtered_accumulate(combiner, base, pred, n, term):
     def combine_if(x, y):
         "*** YOUR CODE HERE ***"
     return accumulate(combine_if, base, n, term)
-
+-
 def odd(x):
     return x % 2 == 1
 
