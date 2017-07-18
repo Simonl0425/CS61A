@@ -105,9 +105,12 @@ def reverse_recursive(s):
     """
     "*** YOUR CODE HERE ***"
 
-    if not s:
-        return s
-    return reverse_recursive(s[1:]) + [s[0]]
+    def reverse_to(s, t):
+        if s is empty:
+            return t
+        else:
+            return reverse_to(rest(s), link(first(s), t))
+    return reverse_to(s, empty)
 
 
 def insert(lst, item, index):
@@ -129,7 +132,7 @@ def insert(lst, item, index):
     l = lst
     head = l
     cnt = 0
-    while cnt < index and not rest(l) != empty:
+    while cnt < index-1 and rest(l) != empty:
         l = rest(l)
         cnt+=1
 
@@ -228,6 +231,15 @@ def acorn_finder(t):
     """
     "*** YOUR CODE HERE ***"
 
+    if root(t) == 'acorn':
+        return True
+    else:
+        for b in branches(t):
+            if acorn_finder(b):
+                return True
+        return False
+
+
 def same_shape(t1, t2):
     """Return True if t1 is indentical in shape to t2.
 
@@ -247,6 +259,8 @@ def same_shape(t1, t2):
     False
     """
     "*** YOUR CODE HERE ***"
+
+    return len(branches(t1)) == len(branches(t2)) and all(same_shape(st1, st2) for st1, st2 in zip(branches(t1), branches(t2)))
 
 def add_trees(t1, t2):
     """
@@ -285,6 +299,10 @@ def add_trees(t1, t2):
     """
     "*** YOUR CODE HERE ***"
 
+
+
+
+
 ###########
 # Mobiles #
 ###########
@@ -313,14 +331,17 @@ def weight(size):
     """Construct a weight of some size."""
     assert size > 0
     "*** YOUR CODE HERE ***"
+    return tree(size)
 
 def size(w):
     """Select the size of a weight."""
     "*** YOUR CODE HERE ***"
+    return root(w)
 
 def is_weight(w):
     """Whether w is a weight, not a mobile."""
     "*** YOUR CODE HERE ***"
+    return len(w) == 1
 
 def examples():
     t = mobile(side(1, weight(2)),
@@ -365,3 +386,10 @@ def balanced(m):
     False
     """
     "*** YOUR CODE HERE ***"
+
+    if is_weight(m):
+        return True
+    l,r = sides(m)[0], sides(m)[1]
+    temp_balance = length(l) * total_weight(end(l)) == length(r) * total_weight(end(r))
+
+    return temp_balance and balanced(end(l)) and balanced(end(r))
