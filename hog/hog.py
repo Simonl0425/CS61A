@@ -21,18 +21,18 @@ def roll_dice(num_rolls, dice=six_sided):
     assert type(num_rolls) == int, 'num_rolls must be an integer.'
     assert num_rolls > 0, 'Must roll at least once.'
     # BEGIN PROBLEM 1
-    sum = 0
+    total = 0
     pigOut = False
-    for i in range(0, num_rolls):
+    for _ in range(0, num_rolls):
         roll = dice()
-        sum += roll
+        total += roll
         if roll == 1:
             pigOut = True
 
     if pigOut:
         return 1
     else:
-        return sum
+        return total
     # END PROBLEM 1
 
 
@@ -176,36 +176,23 @@ def play(strategy0, strategy1, score0=0, score1=0, goal=GOAL_SCORE):
             #print('Player 0:\n========================')
             score = take_turn(strategy0(score0, score1), score1, dice)
             #print('Score: ', score)
-            if(is_perfect_piggy(score)):
-                dice_swapped = not dice_swapped
-                #print('dice Swapped')
             score0 += score
-            if(is_swap(score0, score1)):
-                #print('Score Swapped')
-                #print('s0: ' , score0)
-                #print('s1: ', score1)
-                temp = score0
-                score0 = score1
-                score1 = temp
             player = 1
         else:
             #print('Player 1:\n========================')
             score = take_turn(strategy1(score1, score0), score0, dice)
             #print('Score: ', score)
-            if(is_perfect_piggy(score)):
-                dice_swapped = not dice_swapped
-                #print('dice Swapped')
             score1 += score
-            if(is_swap(score1, score0)):
-                #print('Score Swapped')
-                #print('s0: ' , score0)
-                #print('s1: ', score1)
-                temp = score0
-                score0 = score1
-                score1 = temp
             player = 0
 
-
+        if(is_perfect_piggy(score)):
+            dice_swapped = not dice_swapped
+            #print('dice Swapped')
+        if(is_swap(score1, score0)):
+            #print('Score Swapped')
+            #print('s0: ' , score0)
+            #print('s1: ', score1)
+            score0, score1 = score1, score0
     # END PROBLEM 6
     return score0, score1
 
@@ -325,15 +312,15 @@ def max_scoring_num_rolls(dice=six_sided, num_samples=1000):
     """
     # BEGIN PROBLEM 9
     average_roll = make_averaged(roll_dice, num_samples)
-    max = 0;
+    max_roll = 0;
     roll = 1;
-    for i in range(1, 11):
-        avgScore = average_roll(i, dice)
-        if(avgScore > max):
-            max = avgScore
-            roll = i
-        elif avgScore == max:
-            roll = min(i, roll)
+    for curr_roll in range(1, 11):
+        avgScore = average_roll(curr_roll, dice)
+        if(avgScore > max_roll):
+            max_roll = avgScore
+            roll = curr_roll
+        elif avgScore == max_roll:
+            roll = min(curr_roll, roll)
 
     return roll
     # END PROBLEM 9
