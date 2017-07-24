@@ -5,16 +5,8 @@ HW_SOURCE_FILE = 'hw04.py'
 ################
 
 # Linked List definition
-<<<<<<< HEAD
-empty = 'empty'
-
-def is_link(s):
-    """s is a linked list if it is empty or a (first, rest) pair."""
-    return s == empty or (type(s) == list and len(s) == 2 and is_link(s[1]))
-=======
 
 empty = 'empty'  # The empty linked list
->>>>>>> f8ee1dc4e5e7807ac082bf4b6ec50a0cbe1618b9
 
 def link(first, rest=empty):
     """Construct a linked list from its first element and the rest."""
@@ -24,25 +16,12 @@ def link(first, rest=empty):
 def first(s):
     """Return the first element of a linked list s."""
     assert is_link(s), 'first only applies to linked lists.'
-<<<<<<< HEAD
-    assert s != empty, 'empty linked list has no first element.'
-=======
     assert s is not empty, 'empty linked list has no first element.'
->>>>>>> f8ee1dc4e5e7807ac082bf4b6ec50a0cbe1618b9
     return s[0]
 
 def rest(s):
     """Return the rest of the elements of a linked list s."""
     assert is_link(s), 'rest only applies to linked lists.'
-<<<<<<< HEAD
-    assert s != empty, 'empty linked list has no rest.'
-    return s[1]
-
-def isempty(s):
-    """Returns True iff s is the empty list."""
-    return s is empty
-
-=======
     assert s is not empty, 'empty linked list has no rest.'
     return s[1]
 
@@ -53,7 +32,6 @@ def is_link(s):
 def is_empty(s):
     """Returns True if s is the empty linked list, and False otherwise."""
     return s is empty
->>>>>>> f8ee1dc4e5e7807ac082bf4b6ec50a0cbe1618b9
 
 def print_link(s):
     """Print elements of a linked list s.
@@ -87,8 +65,6 @@ def change(lst, s, t):
     """
     "*** YOUR CODE HERE ***"
 
-<<<<<<< HEAD
-=======
 
     a = lst
     head = a
@@ -100,7 +76,6 @@ def change(lst, s, t):
     return head
 
 
->>>>>>> f8ee1dc4e5e7807ac082bf4b6ec50a0cbe1618b9
 def reverse_iterative(s):
     """Return a reversed version of a linked list s.
 
@@ -111,8 +86,6 @@ def reverse_iterative(s):
     """
     "*** YOUR CODE HERE ***"
 
-<<<<<<< HEAD
-=======
     rlist = empty
     while s != empty:
         rlist = link(first(s), rlist)
@@ -122,7 +95,6 @@ def reverse_iterative(s):
 
 
 
->>>>>>> f8ee1dc4e5e7807ac082bf4b6ec50a0cbe1618b9
 def reverse_recursive(s):
     """Return a reversed version of a linked list s.
 
@@ -133,14 +105,11 @@ def reverse_recursive(s):
     """
     "*** YOUR CODE HERE ***"
 
-<<<<<<< HEAD
-=======
     if not s:
         return s
     return reverse_recursive(s[1:]) + [s[0]]
 
 
->>>>>>> f8ee1dc4e5e7807ac082bf4b6ec50a0cbe1618b9
 def insert(lst, item, index):
     """Returns a link matching lst but with the given item inserted at the
     specified index. If the index is greater than the current length, the item
@@ -156,8 +125,6 @@ def insert(lst, item, index):
     """
     "*** YOUR CODE HERE ***"
 
-<<<<<<< HEAD
-=======
 
     l = lst
     head = l
@@ -176,32 +143,19 @@ def insert(lst, item, index):
 
 
 
->>>>>>> f8ee1dc4e5e7807ac082bf4b6ec50a0cbe1618b9
 #########
 # Trees #
 #########
 
-<<<<<<< HEAD
-def tree(root, branches=[]):
-=======
 # Tree definition
 
 def tree(root, branches=[]):
     """Construct a tree with the given root value and a list of branches."""
->>>>>>> f8ee1dc4e5e7807ac082bf4b6ec50a0cbe1618b9
     for branch in branches:
         assert is_tree(branch), 'branches must be trees'
     return [root] + list(branches)
 
 def root(tree):
-<<<<<<< HEAD
-    return tree[0]
-
-def branches(tree):
-    return tree[1:]
-
-def is_tree(tree):
-=======
     """Return the root value of a tree."""
     return tree[0]
 
@@ -211,7 +165,6 @@ def branches(tree):
 
 def is_tree(tree):
     """Returns True if the given tree is a tree, and False otherwise."""
->>>>>>> f8ee1dc4e5e7807ac082bf4b6ec50a0cbe1618b9
     if type(tree) != list or len(tree) < 1:
         return False
     for branch in branches(tree):
@@ -220,12 +173,9 @@ def is_tree(tree):
     return True
 
 def is_leaf(tree):
-<<<<<<< HEAD
-=======
     """Returns True if the given tree's list of branches is empty, and False
     otherwise.
     """
->>>>>>> f8ee1dc4e5e7807ac082bf4b6ec50a0cbe1618b9
     return not branches(tree)
 
 def print_tree(t, indent=0):
