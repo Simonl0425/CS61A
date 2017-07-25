@@ -62,7 +62,13 @@ def every_other(s):
     >>> singleton
     Link(4)
     """
-    "*** YOUR CODE HERE ***"
+    if s.rest == Link.empty or s.rest.rest == Link.empty:
+        s.rest = Link.empty
+    else:
+        s.rest = s.rest.rest
+        every_other(s.rest)
+
+
 
 def deep_map_mut(fn, link):
     """Mutates a deep link by replacing each item found with the
@@ -76,7 +82,16 @@ def deep_map_mut(fn, link):
     >>> print_link(link1)
     <9 <16> 25 36>
     """
-    "*** YOUR CODE HERE ***"
+    if link == Link.empty:
+        return
+    else:
+        if isinstance(link.first, Link):
+            deep_map_mut(fn, link.first)
+        else:
+            link.first = fn(link.first)
+        deep_map_mut(fn, link.rest)
+
+
 
 def two_list(lst1, lst2):
     """
@@ -97,7 +112,20 @@ def two_list(lst1, lst2):
     >>> c
     Link(1, Link(1, Link(3, Link(3, Link(2)))))
     """
-    "*** YOUR CODE HERE ***"
+
+    def rec(lst1, lst2, cnt):
+        if len(lst1) == 0:
+            return Link.empty
+        if cnt == 0:
+            if  len(lst1) == 1:
+                return Link.empty
+            lst1.pop(0)
+            lst2.pop(0)
+            return Link(lst1[0], rec(lst1, lst2, lst2[0]-1))
+        else:
+            return Link(lst1[0], rec(lst1, lst2, cnt-1))
+
+    return rec(lst1, lst2, lst2[0])
 
 def has_cycle(link):
     """Return whether link contains a cycle.
@@ -113,7 +141,15 @@ def has_cycle(link):
     >>> has_cycle(u)
     False
     """
-    "*** YOUR CODE HERE ***"
+    def chk(link, head):
+        if link == Link.empty:
+            return False
+        if link is head:
+            return True
+
+        return chk(link.rest, head)
+
+    return chk(link.rest, link)
 
 def has_cycle_constant(link):
     """Return whether link contains a cycle.
@@ -158,7 +194,16 @@ def cumulative_sum(t):
     >>> t
     Tree(16, [Tree(8, [Tree(5)]), Tree(7)])
     """
-    "*** YOUR CODE HERE ***"
+    if t.is_leaf():
+        return
+    else:
+        total = t.root
+        for b in t.branches:
+            cumulative_sum(b)
+            total += b.root
+        t.root = total
+
+
 
 def prune_min(t):
     """Prune the tree mutatively from the bottom up. Assume the tree and its branches always have either two branches or none. Prune the tree by
@@ -178,7 +223,14 @@ def prune_min(t):
     >>> t3
     Tree(6, [Tree(3, [Tree(1)])])
     """
-    "*** YOUR CODE HERE ***"
+    for b in t.branches:
+        prune_min(b)
+
+    if len(t.branches) == 2:
+        if t.branches[0].root < t.branches[1].root:
+            t.branches.pop(1)
+        else:
+            t.branches.pop(0)
 
 def long_paths(tree, n):
     """Return a list all paths in tree with length at least n.
@@ -208,4 +260,10 @@ def long_paths(tree, n):
     >>> long_paths(whole, 4)
     []
     """
-    "*** YOUR CODE HERE ***"
+    paths = []
+    if n <= 0 and not tree.branches:
+        paths.append(Link(tree.root))
+    for b in tree.branches:
+        for path in long_paths(b, n - 1):
+            paths.append(Link(tree.root, path))
+    return paths
