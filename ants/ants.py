@@ -190,6 +190,8 @@ class ThrowerAnt(Ant):
     implemented = True
     damage = 1
     food_cost = 3
+    max_range = 99
+    min_range = 0
 
     def nearest_bee(self, hive):
         """Return the nearest Bee in a Place that is not the HIVE, connected to
@@ -198,8 +200,17 @@ class ThrowerAnt(Ant):
         This method returns None if there is no such Bee (or none in range).
         """
         # BEGIN Problem 5
-        "*** REPLACE THIS LINE ***"
-        return random_or_none(self.place.bees)
+        tempPlace = self.place
+        cnt = 0
+        while tempPlace != None:
+            chosenBee = random_or_none(tempPlace.bees)
+            if chosenBee and chosenBee not in hive.bees:
+                if cnt <= self.max_range and cnt >= self.min_range:
+                    return chosenBee
+            else:
+                tempPlace = tempPlace.entrance
+                cnt += 1
+        return None
         # END Problem 5
 
     def throw_at(self, target):
@@ -227,9 +238,7 @@ class Water(Place):
     def add_insect(self, insect):
         """Add INSECT if it is watersafe, otherwise reduce its armor to 0."""
         # BEGIN Problem 3
-        Place.add_insect(self, insect)
-        if insect.watersafe == False:
-            insect.reduce_armor(insect.armor)
+        "*** REPLACE THIS LINE ***"
         # END Problem 3
 
 
@@ -239,8 +248,8 @@ class FireAnt(Ant):
     name = 'Fire'
     damage = 3
     # BEGIN Problem 4
-    "*** REPLACE THIS LINE ***"
-    implemented = False   # Change to True to view in the GUI
+    food_cost = 5
+    implemented = True   # Change to True to view in the GUI
     # END Problem 4
 
     def reduce_armor(self, amount):
@@ -249,7 +258,12 @@ class FireAnt(Ant):
         the current place.
         """
         # BEGIN Problem 4
-        "*** REPLACE THIS LINE ***"
+        self.armor -= amount
+        if self.armor <= 0:
+            temp = list(self.place.bees)
+            for bee in temp:
+                bee.reduce_armor(self.damage)
+            self.place.remove_insect(self)
         # END Problem 4
 
 
@@ -258,8 +272,10 @@ class LongThrower(ThrowerAnt):
 
     name = 'Long'
     # BEGIN Problem 6
-    "*** REPLACE THIS LINE ***"
-    implemented = False   # Change to True to view in the GUI
+    max_range = 99
+    min_range = 5
+    implemented = True   # Change to True to view in the GUI
+    food_cost = 2
     # END Problem 6
 
 
@@ -268,8 +284,10 @@ class ShortThrower(ThrowerAnt):
 
     name = 'Short'
     # BEGIN Problem 6
-    "*** REPLACE THIS LINE ***"
-    implemented = False   # Change to True to view in the GUI
+    max_range = 3
+    min_range = 0
+    implemented = True   # Change to True to view in the GUI
+    food_cost = 2
     # END Problem 6
 
 
