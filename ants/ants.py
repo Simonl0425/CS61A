@@ -48,7 +48,6 @@ class Place(object):
                     self.ant = insect
                     insect.place = self
                     return
-
             assert self.ant is None, 'Two ants in {0}'.format(self)
             self.ant = insect
         else:
@@ -67,17 +66,16 @@ class Place(object):
         """
         if insect.is_ant:
             # Phase 6: Special Handling for BodyguardAnt and QueenAnt
-
-            if self.ant.name == 'Queen' and self.ant.imposter == False:
-                print('Insect ', insect, " self ", self.ant, "name and imposter", self.ant.name, self.ant.imposter)
-                return
             if self.ant is insect:
+                if hasattr(self.ant, 'imposter') and not self.ant.imposter:
+                    return
                 if hasattr(self.ant, 'container') and self.ant.container:
                     self.ant = self.ant.ant
                 else:
                     self.ant = None
             else:
-
+                if hasattr(self.ant.ant, 'imposter') and not self.ant.ant.imposter:
+                    return
                 if hasattr(self.ant, 'container') and self.ant.container and self.ant.ant is insect:
                     self.ant.ant = None
                 else:

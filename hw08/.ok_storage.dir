@@ -1,0 +1,8 @@
+'cadr-caddr-attempts', (0, 71)
+'cadr-caddr-last_attempt', (512, 74)
+'cadr-caddr-correct', (1024, 70)
+'sign-attempts', (1536, 71)
+'sign-last_attempt', (2048, 74)
+'sign-correct', (2560, 70)
+'ordered?-attempts', (3072, 71)
+'ordered?-last_attempt', (3584, 74)
